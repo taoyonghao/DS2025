@@ -1,1 +1,101 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
+// 柱状图最大面积计算模板类
+template <typename T>
+class HistogramMaxAreaCalculator {
+public:
+    /**
+     * 计算柱状图中可勾勒的最大矩形面积
+     * @param heights: 存储柱子高度的向量（非负整数）
+     * @return: 最大矩形面积（类型与高度一致）
+     */
+    static T maxRectangleArea(const vector<T>& heights) {
+        stack<int> monoStack;  // 单调递增栈：存储柱子索引（便于计算宽度）
+        T maxArea = 0;         // 记录最大面积
+        int n = heights.size();
+
+        // 遍历到n（虚拟柱子，高度0），统一处理栈内剩余元素
+        for (int i = 0; i <= n; ++i) {
+            // 当栈非空，且当前柱子高度（含虚拟）< 栈顶柱子高度时，计算栈顶柱子的最大面积
+            while (!monoStack.empty() && (i == n || heights[i] < heights[monoStack.top()])) {
+                int topIdx = monoStack.top();  // 栈顶柱子的索引
+                monoStack.pop();               // 弹出栈顶，确定其右边界为i
+
+                T currentHeight = heights[topIdx];  // 栈顶柱子的高度（矩形的高）
+                int width;                          // 矩形的宽（左右边界差）
+
+                // 左边界：栈空则无左边界（宽度为i）；否则左边界为新栈顶索引
+                if (monoStack.empty()) {
+                    width = i;
+                } else {
+                    width = i - monoStack.top() - 1;
+                }
+
+                // 更新最大面积
+                T currentArea = currentHeight * width;
+                if (currentArea > maxArea) {
+                    maxArea = currentArea;
+                }
+            }
+            // 压入当前索引，维持栈的递增性
+            monoStack.push(i);
+        }
+        return maxArea;
+    }
+};
+
+// 测试示例数据（验证正确性）
+void testExampleCases() {
+    cout << "=================== 示例测试 ===================" << endl;
+    // 示例1：输入[2,1,5,6,2,3]，预期输出10
+    vector<int> heights1 = {2, 1, 5, 6, 2, 3};
+    int area1 = HistogramMaxAreaCalculator<int>::maxRectangleArea(heights1);
+    cout << "示例1 - 输入：[2,1,5,6,2,3]" << endl;
+    cout << "预期输出：10 | 实际输出：" << area1 << endl;
+    cout << (area1 == 10 ? "✅ 测试通过" : "❌ 测试失败") << endl << endl;
+
+    // 示例2：输入[2,4]，预期输出4
+    vector<int> heights2 = {2, 4};
+    int area2 = HistogramMaxAreaCalculator<int>::maxRectangleArea(heights2);
+    cout << "示例2 - 输入：[2,4]" << endl;
+    cout << "预期输出：4 | 实际输出：" << area2 << endl;
+    cout << (area2 == 4 ? "✅ 测试通过" : "❌ 测试失败") << endl << endl;
+}
+
+// 随机生成10组测试数据（符合题目要求：1<=len<=1e5，0<=height<=1e4）
+void testRandomData() {
+    cout << "=================== 随机数据测试 ===================" << endl;
+    srand((unsigned int)time(nullptr));  // 初始化随机种子
+    const int TEST_COUNT = 10;           // 10组测试数据
+
+    for (int test = 1; test <= TEST_COUNT; ++test) {
+        // 1. 生成随机数组长度（1 <= len <= 1e5）
+        int len = rand() % 100000 + 1;
+        vector<int> heights(len);
+
+        // 2. 生成随机柱子高度（0 <= height <= 1e4）
+        for (int i = 0; i < len; ++i) {
+            heights[i] = rand() % 10001;
+        }
+
+        // 3. 计算最大面积
+        int maxArea = HistogramMaxAreaCalculator<int>::maxRectangleArea(heights);
+
+        // 4. 输出结果（不打印完整数组，避免1e5长度刷屏）
+        cout << "随机测试组 " << test << ":" << endl;
+        cout << "数组长度：" << len << " | 最大矩形面积：" << maxArea << endl;
+        cout << "----------------------------------------" << endl;
+    }
+}
+
+// 主函数：执行测试
+int main() {
+    testExampleCases();   // 先验证示例正确性
+    testRandomData();     // 再测试随机数据
+    return 0;
+}
