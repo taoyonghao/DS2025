@@ -1,0 +1,22 @@
+﻿  三.cpp
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(62,28): warning C4566: 由通用字符名称“\u2705”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(62,49): warning C4566: 由通用字符名称“\u274C”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(69,27): warning C4566: 由通用字符名称“\u2705”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(69,48): warning C4566: 由通用字符名称“\u274C”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(21,15): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+      C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(21,15):
+      模板实例化上下文(最早的实例化上下文)为
+          C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(59,50):
+          查看对正在编译的 类 模板 实例化“HistogramMaxAreaCalculator<int>”的引用
+          C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(18,14):
+          在编译 类 模板 成员函数“T HistogramMaxAreaCalculator<T>::maxRectangleArea(const std::vector<int,std::allocator<int>> &)”时
+          with
+          [
+              T=int
+          ]
+              C:\Users\Lenovo\source\repos\SHUJUJIEGOU\SHUJUJIEGOU\三.cpp(59,15):
+              请参阅 "testExampleCases" 中对 "HistogramMaxAreaCalculator<int>::maxRectangleArea" 的第一个引用
+  
+三.obj : error LNK2005: main 已经在 一.obj 中定义
+二.obj : error LNK2005: main 已经在 一.obj 中定义
+C:\Users\Lenovo\source\repos\SHUJUJIEGOU\x64\Debug\SHUJUJIEGOU.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
