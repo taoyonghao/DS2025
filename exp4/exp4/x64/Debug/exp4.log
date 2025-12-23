@@ -1,0 +1,33 @@
+﻿  exp4.cpp
+D:\exp4\exp4\exp4.cpp(161,20): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+D:\exp4\exp4\exp4.cpp(214,42): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\exp4\exp4\exp4.cpp(217,42): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\exp4\exp4\exp4.cpp(248,70): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\exp4\exp4\exp4.cpp(249,70): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\exp4\exp4\exp4.cpp(38,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+      D:\exp4\exp4\exp4.cpp(38,11):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\exp4\exp4\exp4.cpp(246,9):
+          在编译 类 模板 成员函数“std::pair<void (__cdecl *)(std::vector<BoundingBox,std::allocator<BoundingBox>> &),std::string>::pair(const _Ty1 &,const _Ty2 &) noexcept(<expr>)”时
+          with
+          [
+              _Ty1=void (__cdecl *)(std::vector<BoundingBox,std::allocator<BoundingBox>> &),
+              _Ty2=std::string
+          ]
+          D:\exp4\exp4\exp4.cpp(246,10):
+          查看对正在编译的函数 模板 实例化“void bubbleSort<BoundingBox>(std::vector<BoundingBox,std::allocator<BoundingBox>> &)”的引用
+  
+D:\exp4\exp4\exp4.cpp(54,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+      D:\exp4\exp4\exp4.cpp(54,11):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\exp4\exp4\exp4.cpp(247,9):
+          在编译 类 模板 成员函数“std::pair<void (__cdecl *)(std::vector<BoundingBox,std::allocator<BoundingBox>> &),std::string>::pair(const _Ty1 &,const _Ty2 &) noexcept(<expr>)”时
+          with
+          [
+              _Ty1=void (__cdecl *)(std::vector<BoundingBox,std::allocator<BoundingBox>> &),
+              _Ty2=std::string
+          ]
+          D:\exp4\exp4\exp4.cpp(247,10):
+          查看对正在编译的函数 模板 实例化“void insertionSort<BoundingBox>(std::vector<BoundingBox,std::allocator<BoundingBox>> &)”的引用
+  
+  exp4.vcxproj -> D:\exp4\x64\Debug\exp4.exe
