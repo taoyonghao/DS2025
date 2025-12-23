@@ -7,39 +7,38 @@
 #include <map>
 using namespace std;
 
-// ¶¨ÒåÖÈÀàĞÍ
+// å®šä¹‰ç§©ç±»å‹
 typedef int Rank;
 
-// ====================== 1. Î»Í¼Àà Bitmap ÊµÏÖ ======================
 class Bitmap {
 private:
-    unsigned char* M;   // ´æ´¢Î»Í¼µÄ×Ö½ÚÊı×é
-    Rank N;             // ×Ö½ÚÊı×éµÄ³¤¶È£¨×Ü±ÈÌØÊıÎª N*8£©
-    Rank _sz;           // ÓĞĞ§±ÈÌØµÄÊıÁ¿
+    unsigned char* M;   
+    Rank N;             
+    Rank _sz;           
 
-    // À©Èİ²Ù×÷£ºµ±·ÃÎÊµÄÎ»³¬³öµ±Ç°·¶Î§Ê±À©Õ¹¿Õ¼ä
+    
     void expand(Rank k) {
-        if (k < 8 * N) return;  // Î´Ô½½ç£¬ÎŞĞèÀ©Èİ
+        if (k < 8 * N) return;  
         Rank oldN = N;
         unsigned char* oldM = M;
-        init(2 * k);            // ¼Ó±¶À©Èİ²ßÂÔ
-        memcpy(M, oldM, oldN);  // Ç¨ÒÆ¾ÉÊı¾İ
+        init(2 * k);            
+        memcpy(M, oldM, oldN);  
         delete[] oldM;
     }
 
-    // ³õÊ¼»¯Î»Í¼¿Õ¼ä
+    
     void init(Rank n) {
-        N = (n + 7) / 8;        // °´×Ö½Ú¶ÔÆë£¬n±ÈÌØĞèÒªN¸ö×Ö½Ú
+        N = (n + 7) / 8;      
         M = new unsigned char[N];
-        memset(M, 0, N);        // ³õÊ¼»¯ÎªÈ«0
+        memset(M, 0, N);      
         _sz = 0;
     }
 
 public:
-    // ¹¹Ôìº¯Êı£ºÖ¸¶¨³õÊ¼ÈİÁ¿£¨Ä¬ÈÏ8±ÈÌØ£©
+
     Bitmap(Rank n = 8) { init(n); }
 
-    // ´ÓÎÄ¼ş¶ÁÈ¡Î»Í¼
+
     Bitmap(char* file, Rank n = 8) {
         init(n);
         FILE* fp = fopen(file, "r");
@@ -47,13 +46,13 @@ public:
             fread(M, sizeof(char), N, fp);
             fclose(fp);
         }
-        // Í³¼ÆÓĞĞ§±ÈÌØÊı
+
         for (Rank k = 0, _sz = 0; k < n; k++) {
             _sz += test(k) ? 1 : 0;
         }
     }
 
-    // Îö¹¹º¯Êı£ºÊÍ·ÅÄÚ´æ
+
     ~Bitmap() {
         delete[] M;
         M = NULL;
@@ -61,34 +60,34 @@ public:
         N = 0;
     }
 
-    // »ñÈ¡ÓĞĞ§±ÈÌØÊı
+
     Rank size() { return _sz; }
 
-    // ÉèÖÃµÚkÎ»Îª1
+
     void set(Rank k) {
         expand(k);
-        if (!test(k)) {  // ±ÜÃâÖØ¸´¼ÆÊı
+        if (!test(k)) {  
             _sz++;
-            M[k >> 3] |= (0x80 >> (k & 0x07));  // k>>3 = k/8£¬k&0x07 = k%8
+            M[k >> 3] |= (0x80 >> (k & 0x07));  
         }
     }
 
-    // Çå³ıµÚkÎ»£¨ÖÃÎª0£©
+
     void clear(Rank k) {
         expand(k);
-        if (test(k)) {   // ±ÜÃâÖØ¸´¼ÆÊı
+        if (test(k)) {  
             _sz--;
             M[k >> 3] &= ~(0x80 >> (k & 0x07));
         }
     }
 
-    // ²âÊÔµÚkÎ»ÊÇ·ñÎª1
+
     bool test(Rank k) {
         expand(k);
         return M[k >> 3] & (0x80 >> (k & 0x07));
     }
 
-    // µ¼³öµ½Î»Í¼ÎÄ¼ş
+
     void dump(char* file) {
         FILE* fp = fopen(file, "w");
         if (fp) {
@@ -97,9 +96,8 @@ public:
         }
     }
 
-    // ½«Ç°nÎ»×ª»»Îª¶ş½øÖÆ×Ö·û´®
     char* bits2string(Rank n) {
-        expand(n - 1);  // È·±£µÚn-1Î»ÓĞĞ§
+        expand(n - 1); 
         char* s = new char[n + 1];
         s[n] = '\0';
         for (Rank i = 0; i < n; i++) {
@@ -109,29 +107,29 @@ public:
     }
 };
 
-// ====================== 2. ¶ş²æÊ÷½Úµã½á¹¹ BinNode ======================
+
 template <typename T>
 struct BinNode {
-    T data;               // ½ÚµãÊı¾İ£¨¹ş·òÂüÊ÷ÖĞÎªÈ¨ÖØ/×Ö·û£©
-    BinNode<T>* left;     // ×óº¢×Ó
-    BinNode<T>* right;    // ÓÒº¢×Ó
+    T data;              
+    BinNode<T>* left;     
+    BinNode<T>* right;   
 
-    // ¹¹Ôìº¯Êı
+
     BinNode(T val = T()) : data(val), left(nullptr), right(nullptr) {}
 };
 
-// ====================== 3. ¶ş²æÊ÷½á¹¹ BinTree ÊµÏÖ ======================
+
 template <typename T>
 class BinTree {
 protected:
-    BinNode<T>* _root;  // ¸ù½Úµã
-    int _size;          // ½Úµã×ÜÊı
+    BinNode<T>* _root;
+    int _size;          
 
 public:
     BinTree() : _root(nullptr), _size(0) {}
     ~BinTree() { clear(_root); }
 
-    // Çå¿Õ×ÓÊ÷
+ 
     void clear(BinNode<T>* node) {
         if (!node) return;
         clear(node->left);
@@ -140,78 +138,75 @@ public:
         _size--;
     }
 
-    // »ñÈ¡¸ù½Úµã
     BinNode<T>* root() { return _root; }
 
-    // ÉèÖÃ¸ù½Úµã
+ 
     void setRoot(BinNode<T>* node) { _root = node; _size++; }
 
-    // »ñÈ¡½ÚµãÊı
+  
     int size() { return _size; }
 };
 
-// ====================== 4. ¹ş·òÂüÊ÷ HuffTree ÊµÏÖ ======================
-// ¹ş·òÂü½ÚµãÊı¾İÀàĞÍ£º´æ´¢×Ö·ûºÍÈ¨ÖØ
+
 struct HuffData {
-    char ch;    // ×Ö·û£¨½öÒ¶×Ó½ÚµãÓĞĞ§£©
-    int weight; // È¨ÖØ£¨×Ö·û³öÏÖ´ÎÊı£©
+    char ch;
+    int weight; 
 
     HuffData(char c = '\0', int w = 0) : ch(c), weight(w) {}
 
-    // ÖØÔØ±È½ÏÔËËã·û£¨ÓÃÓÚÓÅÏÈ¶ÓÁĞ£©
+   
     bool operator<(const HuffData& other) const {
-        return weight > other.weight;  // Ğ¡¶¥¶Ñ£ºÈ¨ÖØĞ¡µÄÓÅÏÈ
+        return weight > other.weight; 
     }
 };
 
-// ¹ş·òÂüÊ÷£º¼Ì³Ğ×Ô¶ş²æÊ÷
+
 class HuffTree : public BinTree<HuffData> {
 private:
-    // µİ¹éÉú³É¹ş·òÂü±àÂë
+
     void generateCode(BinNode<HuffData>* node, Bitmap& bit, Rank depth, map<char, string>& codeMap) {
         if (!node) return;
-        // Ò¶×Ó½Úµã£º¼ÇÂ¼±àÂë
+
         if (!node->left && !node->right) {
             char* str = bit.bits2string(depth);
             codeMap[node->data.ch] = string(str);
             delete[] str;
             return;
         }
-        // ×ó×ÓÊ÷£º±àÂë¼Ó0
+
         bit.clear(depth);
         generateCode(node->left, bit, depth + 1, codeMap);
-        // ÓÒ×ÓÊ÷£º±àÂë¼Ó1
+        
         bit.set(depth);
         generateCode(node->right, bit, depth + 1, codeMap);
     }
 
 public:
-    // ¹¹½¨¹ş·òÂüÊ÷£¨ÊäÈë×Ö·ûÆµÂÊ±í£©
+
     void buildTree(map<char, int>& freqMap) {
-        // Ğ¡¶¥¶Ñ£¨ÓÅÏÈ¶ÓÁĞ£©
+        
         priority_queue<HuffData> pq;
         for (auto& pair : freqMap) {
             pq.push(HuffData(pair.first, pair.second));
         }
 
-        // ¹¹½¨¹ş·òÂüÊ÷
+        
         while (pq.size() > 1) {
-            // È¡³öÁ½¸öÈ¨ÖØ×îĞ¡µÄ½Úµã
             HuffData leftData = pq.top(); pq.pop();
             HuffData rightData = pq.top(); pq.pop();
-            // ´´½¨ĞÂ¸¸½Úµã
+
             HuffData parentData('\0', leftData.weight + rightData.weight);
             BinNode<HuffData>* parent = new BinNode<HuffData>(parentData);
             parent->left = new BinNode<HuffData>(leftData);
             parent->right = new BinNode<HuffData>(rightData);
-            // ¸¸½ÚµãÈë¶Ñ
+
             pq.push(parentData);
-            // ¸üĞÂÊ÷µÄ¸ùºÍ´óĞ¡
+
             this->setRoot(parent);
         }
     }
 
-    // Éú³É¹ş·òÂü±àÂë±í
+    
     map<char, string> getHuffCode() {
         map<char, string> codeMap;
         Bitmap bit;
@@ -220,14 +215,13 @@ public:
     }
 };
 
-// ====================== 5. ¸¨Öúº¯Êı£ºÍ³¼Æ¡¶I have a dream¡·×Ö·ûÆµÂÊ ======================
 map<char, int> countCharFreq(const string& text) {
     map<char, int> freqMap;
-    // ³õÊ¼»¯26¸ö×ÖÄ¸µÄÆµÂÊÎª0
+    // åˆå§‹åŒ–26ä¸ªå­—æ¯çš„é¢‘ç‡ä¸º0
     for (char c = 'a'; c <= 'z'; c++) {
         freqMap[c] = 0;
     }
-    // Í³¼ÆÎÄ±¾ÖĞ×ÖÄ¸ÆµÂÊ£¨ºöÂÔ´óĞ¡Ğ´£©
+    // ç»Ÿè®¡æ–‡æœ¬ä¸­å­—æ¯é¢‘ç‡ï¼ˆå¿½ç•¥å¤§å°å†™ï¼‰
     for (char ch : text) {
         if (ch >= 'A' && ch <= 'Z') {
             ch = tolower(ch);
@@ -239,8 +233,8 @@ map<char, int> countCharFreq(const string& text) {
     return freqMap;
 }
 
-// ====================== 6. ×Ö·û´®±àÂë/½âÂëº¯Êı ======================
-// ±àÂë×Ö·û´®
+// ====================== 6. å­—ç¬¦ä¸²ç¼–ç /è§£ç å‡½æ•° ======================
+// ç¼–ç å­—ç¬¦ä¸²
 string encodeString(const string& str, map<char, string>& codeMap) {
     string res;
     for (char ch : str) {
@@ -250,7 +244,7 @@ string encodeString(const string& str, map<char, string>& codeMap) {
     return res;
 }
 
-// ½âÂë×Ö·û´®
+// è§£ç å­—ç¬¦ä¸²
 string decodeString(const string& code, HuffTree& tree) {
     string res;
     BinNode<HuffData>* cur = tree.root();
@@ -261,18 +255,18 @@ string decodeString(const string& code, HuffTree& tree) {
         else {
             cur = cur->right;
         }
-        // µ½´ïÒ¶×Ó½Úµã£¬¼ÇÂ¼×Ö·û
+        // åˆ°è¾¾å¶å­èŠ‚ç‚¹ï¼Œè®°å½•å­—ç¬¦
         if (!cur->left && !cur->right) {
             res += cur->data.ch;
-            cur = tree.root();  // ÖØÖÃµ½¸ù½Úµã
+            cur = tree.root();  // é‡ç½®åˆ°æ ¹èŠ‚ç‚¹
         }
     }
     return res;
 }
 
-// ====================== Ö÷º¯Êı£º²âÊÔÊµÑé¹¦ÄÜ ======================
+// ====================== ä¸»å‡½æ•°ï¼šæµ‹è¯•å®éªŒåŠŸèƒ½ ======================
 int main() {
-    // 1. ÍêÕû¡¶I have a dream¡·Ô­ÎÄ
+    // 1. å®Œæ•´ã€ŠI have a dreamã€‹åŸæ–‡
     string speech =
         "I am happy to join with you today in what will go down in history as the greatest demonstration for freedom in the history of our nation."
         "Five score years ago, a great American, in whose symbolic shadow we stand today, signed the Emancipation Proclamation. This momentous decree came as a great beacon light of hope to millions of Negro slaves who had been seared in the flames of withering injustice. It came as a joyous daybreak to end the long night of their captivity."
@@ -317,34 +311,35 @@ int main() {
         "Free at last! Free at last!"
         "Thank God Almighty, we are free at last!";
 
-    // 2. Í³¼Æ×Ö·ûÆµÂÊ
+    // 2. ç»Ÿè®¡å­—ç¬¦é¢‘ç‡
     map<char, int> freqMap = countCharFreq(speech);
-    cout << "=== ÍêÕûÔ­ÎÄ×Ö·ûÆµÂÊ±í ===" << endl;
+    cout << "=== å®Œæ•´åŸæ–‡å­—ç¬¦é¢‘ç‡è¡¨ ===" << endl;
     for (auto& pair : freqMap) {
         cout << pair.first << ": " << pair.second << endl;
     }
 
-    // 3. ¹¹½¨¹ş·òÂüÊ÷
+    // 3. æ„å»ºå“ˆå¤«æ›¼æ ‘
     HuffTree huffTree;
     huffTree.buildTree(freqMap);
 
-    // 4. Éú³É¹ş·òÂü±àÂë±í
+    // 4. ç”Ÿæˆå“ˆå¤«æ›¼ç¼–ç è¡¨
     map<char, string> codeMap = huffTree.getHuffCode();
-    cout << "\n=== »ùÓÚÍêÕûÔ­ÎÄµÄ¹ş·òÂü±àÂë±í ===" << endl;
+    cout << "\n=== åŸºäºå®Œæ•´åŸæ–‡çš„å“ˆå¤«æ›¼ç¼–ç è¡¨ ===" << endl;
     for (auto& pair : codeMap) {
         cout << pair.first << ": " << pair.second << endl;
     }
 
-    // 5. ²âÊÔ±àÂë£º¶ÔdreamºÍ×Ô¶¨Òåµ¥´Ê±àÂë
+    // 5. æµ‹è¯•ç¼–ç ï¼šå¯¹dreamå’Œè‡ªå®šä¹‰å•è¯ç¼–ç 
     string words[] = { "dream", "nation", "equal", "children", "freedom", "justice" };
     for (string word : words) {
         string code = encodeString(word, codeMap);
         string decode = decodeString(code, huffTree);
-        cout << "\nµ¥´Ê " << word << ":" << endl;
-        cout << "  ±àÂë: " << code << endl;
-        cout << "  ½âÂë: " << decode << endl;
+        cout << "\nå•è¯ " << word << ":" << endl;
+        cout << "  ç¼–ç : " << code << endl;
+        cout << "  è§£ç : " << decode << endl;
     }
 
     return 0;
 }
+
 
